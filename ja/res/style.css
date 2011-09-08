@@ -1,0 +1,65 @@
+/* global */
+html, body, h1, h2, header, nav, ul, li, p, img {
+	margin:0; padding:0; border:0;
+}
+html, body { width:100%; height:100%; }
+
+/* ----- ----- header ----- -----*/
+/* heigith: 110px */
+body>header {
+	position: fixed; left:0; right:0; top:0; height: 110px;
+	background-color: #55A;
+}
+body>header img { padding: 10px; }
+
+/* ----- ----- navigation ----- -----*/
+/* width: 150px */
+body>nav {
+	position: fixed; left:0; width:150px; top:110px; bottom:30px;
+	background-color: #55A;
+}
+body>nav>ul>li { padding: 10px 20px; }
+body>nav a {
+	font-weight: bold;
+	text-decoration: none;
+	color: #FFF;
+}
+body>nav a:hover { text-decoration: underline; }
+
+/* ----- ----- contents ----- -----*/
+/* */
+body>section {
+	position: fixed; left:150px; right:0; top:110px; bottom:30px;
+	overflow: scroll;
+}
+body>section>article { margin: 0 20px; border-top: solid 2px #FFF; }
+body>section>article+article { border-top: solid 2px #55A; }
+
+article>* { margin: 10px; }
+article>h2,
+article>h3 { text-decoration: underline; }
+article>h2>em { text-transform: uppercase; color: red; }
+
+article>p { text-indent: 1em; }
+article>p.continue { text-indent: 0; }
+article>p q { font-style: italic; }
+article>p q:before,
+article>p q:after { font-style: normal; }
+
+article>figure { text-align: center; }
+article>figure>pre { text-align:left; border: solid 1px black; }
+
+article>ul { margin-left: 40px; }
+
+
+/* ----- ----- footer ----- -----*/
+/* height 30px */
+body>footer {
+	position: fixed; left:0; right:0; height:30px; bottom:0;
+	background-color: #55A;
+}
+body>footer>p {
+	padding: 5px;
+	color: #FFF;
+	text-align: center;
+}

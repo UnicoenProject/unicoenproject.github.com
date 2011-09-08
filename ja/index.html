@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>UNICOEN - Unified Source Code Engineering Framework -</title>
+	<!--[if IE]>
+	<script type="text/javascript">
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('footer');
+	</script>
+	<![endif]-->
+	<link rel="stylesheet" href="res/style.css" type="text/css" media="all">
+<body lang="ja">
+	<header>
+		<h1><a href="index.html"><img alt="UNICOEN" src="res/logo.png" height="80"></a></h1>
+	</header>
+	<nav>
+		<ul>
+			<li><a href="#what">UNICOENとは</a>
+			<li><a href="#howto">使い方</a>
+			<li><a href="#download">ダウンロード</a>
+			<li><a href="#lisence">ライセンス</a>
+			<li><a href="#reportbag">バグ報告</a>
+		</ul>
+	</nav>
+	<section>
+		<article id="what">
+			<h2>UNICOEN (<em>uni</em>fied source <em>co</em>de <em>en</em>gineering framework) とは</h2>
+<p>UNICOENは様々な言語で書かれたプログラムを統一モデルに変換するフレームワークです。
+あなたが<q>このプロジェクトにあるクラスを全部探しだす</q>ツールが欲しいと思ったときは，
+このフレームワークを使ってツールを作ってみてください。
+あなたが作ったツールはJavaにもRubyにもその他たくさんのプログラミング言語に対応した素晴らしいツールになります。
+		</article>
+		<article id="howto">
+			<h2>使い方</h2>
+<h3>実行環境の準備</h3>
+<p>C#の開発環境を構築してください。構築方法は……まあググればすぐ見つかるでしょう。
+<h3>Javaプログラム内に定義されたメソッドを列挙する</h3>
+<p>まずは今回必要なdllを参照しましょう。対象は2つです。</p>
+<ul>
+	<li>Unicoen.Core.dll
+	<li>Unicoen.Languages.Java.dll
+</ul>
+<p>では次にJavaのファイルをモデル化してみましょう。今回解析するJavaのファイルは Sample.java ということにしておきましょう。
+<script src="https://gist.github.com/1165403.js?file=Sample.java"></script>
+<noscript>
+<figure>
+<pre><code>
+public class Sample {
+    public static void main(String[] args) {
+        if (args.length > 0)
+            greet(args[0]);
+        else
+            greet("World");
+    }
+
+    private static void greet(String name) {
+        System.out.println("Hello, " + name + ".");
+    }
+}
+</code></pre>
+<figcaption>Sample.java</figcaption>
+</figure>
+</noscript>
+
+<script src="https://gist.github.com/1165403.js?file=Program1.cs"></script>
+<noscript>
+<figure>
+<pre><code>
+using System;
+using System.IO;
+using Unicoen.Languages.Java;
+using Unicoen.Model;
+
+class Program {
+    static void Main(string[] args) {
+        var model = JavaFactory.GenerateModel(File.ReadAllText("Sample.java"));
+    }
+}
+</code></pre>
+<figcaption>Program.cs</figcaption>
+</figure>
+</noscript>
+
+<p>おや，たった1行でモデル化が済んでしまいました。でもこのままでは解析しただけでメソッド名はわかりません。
+ではこのモデルの中からメソッドの定義を探してきましょう。
+メソッドの定義は UnifiedFunctionDefinition というクラスで表現されています。
+
+<script src="https://gist.github.com/1165403.js?file=Program2.cs"></script>
+<noscript>
+<figure>
+<pre><code>
+using System;
+using System.IO;
+using Unicoen.Languages.Java;
+using Unicoen.Model;
+
+class Program {
+    static void Main(string[] args) {
+        var model = JavaFactory.GenerateModel(File.ReadAllText("Sample.java"));
+        foreach(var method in model.Descendants&lt;UnifiedFunctionDefinition&gt;()) {
+            Console.WriteLine(method.Name.Name);
+        }
+    }
+}
+</code></pre>
+<figcaption>Program.cs</figcaption>
+</figure>
+</noscript>
+
+<p>ではこのプログラムを実行してみます。
+<figure>
+<img src="img/method_finder_out1.png">
+<figcaption>実行結果</figcaption>
+</figure>
+<p>目的どおり Sample.java に定義されたメソッド名がすべて表示されました。</p>
+<hr>
+<p>さて，簡単なツールを作成してみましたが，このツールは今後さらに便利にできます。
+例えばこんな感じでしょうか。
+<ul>
+	<li>解析するファイル名を固定ではなく標準入力から指定する。
+		ディレクトリを指定した場合，その中にあるJavaソースファイルのメソッドを全て列挙する。
+	<li>クラス名と合わせてツリー状に表示する。
+	<li>Java以外の言語にも対応させる。
+</ul>
+<p class="continue">一つ目はサクッっと作ってしまえますね。やってみますか。</p>
+
+<script src="https://gist.github.com/1165403.js?file=Program3.cs"></script>
+<noscript>
+<figure>
+<pre><code>
+using System;
+using System.IO;
+using Unicoen.Languages.Java;
+using Unicoen.Model;
+
+class Program {
+    static void Main(string[] args) {
+        if (args.Length == 0) {
+            Console.Error.WriteLine("引数が足りません");
+            Environment.Exit(1);
+        }
+        if (args[0].EndsWith(".java") && File.Exists(args[0])) {
+            ShowMethods(args[0]);
+            return;
+        }
+        if (Directory.Exists(args[0])) {
+            foreach(var file in Directory.EnumerateFiles(args[0], "*.java", SearchOption.AllDirectories)) {
+                ShowMethods(file);
+            }
+        }
+    }
+
+    private static void ShowMethods(string fiePath) {
+        var model = JavaFactory.GenerateModel(File.ReadAllText(fiePath));
+        foreach(var method in model.Descendants&lt;UnifiedFunctionDefinition&gt;()) {
+            Console.WriteLine(method.Name.Name);
+        }
+    }
+}
+</code></pre>
+<figcaption>Program.cs</figcaption>
+</figure>
+</noscript>
+
+<p>チュートリアルはこれで終わりです。
+これからはUNICOENを使って貴方が考える素晴らしいツールを作ってください。
+私たちはあなたのツールを使う日を楽しみにしています。
+		</article>
+		<article id="download">
+			<h2>ダウンロード</h2>
+<p>ここからダウンロードしてきてください。</p>
+<ul><li><a href="https://github.com/downloads/UnicoenProject/UNICOEN/Unicoen0.0.1.zip">Unicoen 0.0.1.zip</a></ul>
+		</article>
+		<article id="lisence">
+			<h2>ライセンス</h2>
+<p>UNICOENは <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache2.0</a>で提供しています。
+割と自由に利用可能なので、どんどん使ってください。
+		</article>
+		<article id="reportbag">
+			<h2>バグ報告</h2>
+<p>バグ報告は大歓迎です。何かあった場合はこちらへどうぞ。
+<a href="https://github.com/UnicoenProject/UNICOEN/issues">https://github.com/UnicoenProject/UNICOEN/issues</a>
+<p>UNICOENのソースコードは全て<a href="https://github.com/UnicoenProject/UNICOEN">GitHubにて公開</a>されています。
+バグ報告だけではなく直してPullRequestを送ってくれたら最高ですね。
+		</article>
+	</section>
+	<footer>
+		<p>Copyright &copy; 2011 Unicoen Project All Rights Reserved.</p>
+	</footer>
+</html>
+
+
