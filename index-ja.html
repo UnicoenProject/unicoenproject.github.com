@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset="UTF-8">
+	<meta charset='utf-8'>
 	<title>UNICOEN - Unified Source Code Engineering Framework -</title>
-	<!--[if IE]>
+	<!--[if IE 10]>
 	<script type="text/javascript">
 		document.createElement('header');
 		document.createElement('nav');
@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="res/style.css" type="text/css" media="all">
 <body lang="ja">
 	<header>
-		<h1><a href="index.html"><img alt="UNICOEN" src="res/logo.png" height="80"></a></h1>
+		<h1><a href="index-ja.html"><img alt="UNICOEN" src="res/logo.png" height="80"></a></h1>
 	</header>
 	<nav>
 		<ul>
@@ -44,72 +44,13 @@
 	<li>Unicoen.Core.dll
 	<li>Unicoen.Languages.Java.dll
 </ul>
-<p>では次にJavaのファイルをモデル化してみましょう。今回解析するJavaのファイルは Sample.java ということにしておきましょう。
+<p>では次にJavaのファイルをモデル化してみましょう。今回解析するJavaのファイルは Sample.java ということにしておきましょう。</p>
 <script src="https://gist.github.com/1165403.js?file=Sample.java"></script>
-<noscript>
-<figure>
-<pre><code>
-public class Sample {
-    public static void main(String[] args) {
-        if (args.length > 0)
-            greet(args[0]);
-        else
-            greet("World");
-    }
-
-    private static void greet(String name) {
-        System.out.println("Hello, " + name + ".");
-    }
-}
-</code></pre>
-<figcaption>Sample.java</figcaption>
-</figure>
-</noscript>
-
 <script src="https://gist.github.com/1165403.js?file=Program1.cs"></script>
-<noscript>
-<figure>
-<pre><code>
-using System;
-using System.IO;
-using Unicoen.Languages.Java;
-using Unicoen.Model;
-
-class Program {
-    static void Main(string[] args) {
-        var model = JavaFactory.GenerateModel(File.ReadAllText("Sample.java"));
-    }
-}
-</code></pre>
-<figcaption>Program.cs</figcaption>
-</figure>
-</noscript>
-
 <p>おや，たった1行でモデル化が済んでしまいました。でもこのままでは解析しただけでメソッド名はわかりません。
 ではこのモデルの中からメソッドの定義を探してきましょう。
-メソッドの定義は UnifiedFunctionDefinition というクラスで表現されています。
-
+メソッドの定義は UnifiedFunctionDefinition というクラスで表現されています。</p>
 <script src="https://gist.github.com/1165403.js?file=Program2.cs"></script>
-<noscript>
-<figure>
-<pre><code>
-using System;
-using System.IO;
-using Unicoen.Languages.Java;
-using Unicoen.Model;
-
-class Program {
-    static void Main(string[] args) {
-        var model = JavaFactory.GenerateModel(File.ReadAllText("Sample.java"));
-        foreach(var method in model.Descendants&lt;UnifiedFunctionDefinition&gt;()) {
-            Console.WriteLine(method.Name.Name);
-        }
-    }
-}
-</code></pre>
-<figcaption>Program.cs</figcaption>
-</figure>
-</noscript>
 
 <p>ではこのプログラムを実行してみます。
 <figure>
@@ -127,44 +68,7 @@ class Program {
 	<li>Java以外の言語にも対応させる。
 </ul>
 <p class="continue">一つ目はサクッっと作ってしまえますね。やってみますか。</p>
-
 <script src="https://gist.github.com/1165403.js?file=Program3.cs"></script>
-<noscript>
-<figure>
-<pre><code>
-using System;
-using System.IO;
-using Unicoen.Languages.Java;
-using Unicoen.Model;
-
-class Program {
-    static void Main(string[] args) {
-        if (args.Length == 0) {
-            Console.Error.WriteLine("引数が足りません");
-            Environment.Exit(1);
-        }
-        if (args[0].EndsWith(".java") && File.Exists(args[0])) {
-            ShowMethods(args[0]);
-            return;
-        }
-        if (Directory.Exists(args[0])) {
-            foreach(var file in Directory.EnumerateFiles(args[0], "*.java", SearchOption.AllDirectories)) {
-                ShowMethods(file);
-            }
-        }
-    }
-
-    private static void ShowMethods(string fiePath) {
-        var model = JavaFactory.GenerateModel(File.ReadAllText(fiePath));
-        foreach(var method in model.Descendants&lt;UnifiedFunctionDefinition&gt;()) {
-            Console.WriteLine(method.Name.Name);
-        }
-    }
-}
-</code></pre>
-<figcaption>Program.cs</figcaption>
-</figure>
-</noscript>
 
 <p>チュートリアルはこれで終わりです。
 これからはUNICOENを使って貴方が考える素晴らしいツールを作ってください。
@@ -191,6 +95,3 @@ class Program {
 	<footer>
 		<p>Copyright &copy; 2011 Unicoen Project All Rights Reserved.</p>
 	</footer>
-</html>
-
-
