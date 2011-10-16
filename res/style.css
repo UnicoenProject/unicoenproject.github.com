@@ -51,6 +51,7 @@ article>figure>pre { text-align:left; border: solid 1px black; }
 
 article>ul { margin-left: 40px; }
 
+pre.terminal { padding: 15px 20px; color:white; background-color:black; }
 
 /* ----- ----- footer ----- -----*/
 /* height 30px */
