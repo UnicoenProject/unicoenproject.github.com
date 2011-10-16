@@ -16,15 +16,15 @@ body>header img { padding: 10px; }
 /* width: 150px */
 body>nav {
 	position: fixed; left:0; width:150px; top:110px; bottom:30px;
-	background-color: #55A;
+	color: #FFF; background-color: #55A; font-weight: bold;
 }
+nav>.switch { text-align: center; }
 body>nav>ul>li { padding: 10px 20px; }
 body>nav a {
-	font-weight: bold;
-	text-decoration: none;
-	color: #FFF;
+	color: inherit; 
+	text-decoration: underline; 
 }
-body>nav a:hover { text-decoration: underline; }
+body>nav a:hover { color: #f77; }
 
 /* ----- ----- contents ----- -----*/
 /* */
