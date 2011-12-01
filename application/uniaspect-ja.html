@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>UniAspect - Aspect-Oriented Programming Framework for Multiple Languages -</title>
+	<!--[if IE 10]>
+	<script type="text/javascript">
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('section');
+		document.createElement('footer');
+	</script>
+	<![endif]-->
+	<link rel="stylesheet" href="../res/style.css" type="text/css" media="all">
+<body lang="en">
+<header>
+	<h1><a href="../index-ja.html"><img alt="UNICOEN" src="../res/logo.png" height="80"></a></h1>
+</header>
+<nav>
+	<div class="switch">[ <a href="../application/uniaspect.html">en</a> | ja ]</div>
+	<ul>
+		<li><h2>UniAspect</h2>
+		<li><a href="#intro">概要</a>
+		<li><a href="#usage">使い方</a>
+		<li><a href="#download">ダウンロード</a>
+	</ul>
+</nav>
+<section>
+	<article id="intro">
+		<h2>概要</h2>
+		<p>UniAspectは、複数言語対応のアスペクト指向プログラミングフレームワークです。
+		UniAspectはUNICOENを基盤として実装されており、複数のプログラミング言語に対して、統一されたアスペクトの記述を提供します。
+		これにより、複数の言語に横断する関心事を１つのアスペクトとして扱うことができます。
+	</article>
+	<article id="usage">
+		<h2>使い方</h2>
+		<h3>実行環境の準備</h3>
+		<p>UNICOENおよびUniAspectはC#により開発されています。
+		したがって、UniAspectを実行するためには.Netの環境が必要になりますので、
+		必要に応じて実行環境をインストールしてください。
+		また、ソースコードからビルドするためには、Visual Studio2010が必要になりますので、
+		こちらも必要に応じてインストールしてください。
+		<p>なお、実行にはUniAspectのdllだけでなく、UNICOEN本体のdllすべてが必要になりますので、
+		うまく動かない場合には/binフォルダ内を確認してください。
+		
+		<br><br>
+		<h3>実行方法</h3>
+		<p>ここでは、アスペクトの織り込みの例として、関数の実行部分へのコード埋め込みを紹介します。
+		今回使用するファイルとして、以下の２つを用意します。
+		<ul>
+			<li>織り込み対象コード　(Sample.java)
+			<li>アスペクトファイル　(Logger.apt)
+		</ul>
+		<p>ここで、UniAspectでは織り込み対象としてディレクトリのみ指定可能であるため、
+		今回は対象コードをbasecodeというディレクトリに格納しておきます。
+		<p>以下に、上記２つのファイルの内容を示します。
+		
+		<script src="https://gist.github.com/1413134.js?file=Sample.java"></script>
+		<script src="https://gist.github.com/1413134.js?file=Logger.apt"></script>
+		
+		<p>アスペクトはAspectJライクな記述が可能になっています。
+		アスペクトに記述可能な要素については、論文を参照してください。
+		細かい記述については、後日このWebサイト上で公開します。
+		<p>Logger.aptでは、対象となるプログラムに含まれる関数すべてに対して、ログコードを織り込むことを示しています。
+		今回は@Javaが記述されているため、Java言語内の関数のみが、アスペクト織り込みの対象となります。
+		実行コマンドは次の通りです。
+		<pre class='terminal'>$ UniAspect basecode Logger.apt</pre>
+		
+		<br>
+		<p>第１引数に対象ソースコードを含むディレクトリのパスを、第２引数にアスペクトファイルのパスを指定します。
+		UniAspectの実行ファイルへのパスを含む、全てのパスが正しければ、
+		アスペクトの織り込み処理が行われ、outputというディレクトリに結果が格納されます。この時、
+		すでにoutputフォルダがある場合には、上書きして結果が出力されることに注意してください。
+		<p>織り込み結果は以下のようになります。
+		<script src="https://gist.github.com/1413134.js?file=SampleWithAspect.java"></script>
+		
+		<p>Java言語以外にも、言語依存ブロックを記述することで、それらで記述されたプログラムに対する織り込みが行われます。
+		<p>なお、プログラムの解析はUNICOENに依存しており、言語によって解析系の成熟度がことなっています。
+		複雑なソースコードについても解析を行える言語はJava、JavaScriptになっています。
+		それ以外の言語については、部分的に解析が行えるものの、
+		複雑なソースコードについては正しく解析できない成熟度であるため、
+		現在、より複雑なコードを解析できるようUNICOEN本体を開発中です。
+		
+	</article>
+	<article id="download">
+		<h2>ダウンロード</h2>
+		<p>現在、UniAspectはUNICOENと一緒に開発が行われています。
+		<p>UniAspectはUnicoenProjectに一部であり、以下のリンクからダウンロードできます。(
+			<a href="http://github.com/UnicoenProject/UNICOEN/zipball/master">zip</a> or
+			<a href="http://github.com/UnicoenProject/UNICOEN/tarball/master">tar</a>).
+		<p>また、以下のコマンドにより、Gitからプロジェクトをクローンすることもできます。
+		<pre class='terminal'>$ git clone git://github.com/UnicoenProject/UNICOEN</pre>
+	</article>
+</section>
+<footer>
+	<p>Copyright &copy; 2011 Unicoen Project All Rights Reserved.</p>
+</footer>
