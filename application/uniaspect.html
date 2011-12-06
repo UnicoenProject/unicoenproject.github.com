@@ -48,7 +48,34 @@
 			<li>A target base code (Sample.java)
 			<li>An Aspect program  (Logger.apt)
 		</ul>
-		<p>Since the specification of the directory is only allowed for specifying the target base code, 
+		<p>Since the specification of the directory is only allowed for specifying the target base code, store the target base code into the "basecode" directory.
+		<p>The detail of two files is as below.
+		
+		<script src="https://gist.github.com/1413134.js?file=Sample.java"></script>
+		<script src="https://gist.github.com/1413134.js?file=Logger.apt"></script>
+		
+		<p>The grammer of an aspect of UniAspect is AspectJ-like format. 
+		More information about an aspect description can be referenced in the paper.
+		The details of the description will be available on this site at the later date.
+		<p>Logger.apt shows that it inserts log code into all functions in the target program.
+		In this case, only functions declared in the Java program will be targeted for the weaving because there is @Java identifier.
+		The execution command is as follows.
+		<pre class='terminal'>$ UniAspect basecode Logger.apt</pre>
+		
+		<br>
+		<p>The first parameter is the path of the directory that includes all target base code.
+		The second parameter is the path of the aspect file.
+		The process of the aspect weaving will be performed when all paths are correct.
+		And then, the result of weaving will be outputted into "output" directory.
+		Note that output directory might be overwritten when there already exists "output" directory.
+		<p>The result of weaving is as follows.
+		<script src="https://gist.github.com/1413134.js?file=SampleWithAspect.java"></script>
+		
+		<p>Not only Java program but also programs written in other languages can be targeted by specifying language-depend block, for example, @JavaScript, @CSharp and so on.
+		<p>By the way, the program analysis phase in UniAspect is based on UNICOEN, and the maturity of parser in each languages differs.
+		UNICOEN can parse complex programs in the Java and JavaScript languages; high maturity.
+		But in the other languages, it cannot parses complex program; low maturity. (It can parse brief program.)
+		UNICOEN project is now improving the parser so that UniAspect can deal with complex program in all corresponding languages.
 	</article>
 	<article>
 		<h2>Download</h2>
