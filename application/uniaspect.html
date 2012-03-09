@@ -37,8 +37,17 @@
 	<article id="usage">
 		<h2>Usage</h2>
 		<h3>Execution Environment</h3>
-		<p>UniAspect and UNICOEN are developed with C#. Therefore, you need to prepare .NET framework to execute UniAspect. Visual Studio 2010 is also required when you want to build UniAspect from source code. Please install these tools if needed.
+		<p>UniAspect and UNICOEN are developed with C#. Therefore, you need to prepare .NET framework to execute UniAspect. Visual Studio 2010 is also required when you build UniAspect from source code. Please install these tools if needed.
 		<p>All dlls is required when you invoke UniAspect. Please confirm /bin directory when the system does not work well.
+		
+		<br><br>
+		<h3>Build of Execution File</h3>
+		<p>Currently, since UniAspect is published as source code, you need to build source code to execute UniAspect.
+		What you should do is merely to execute build command on the downloaded project.
+		
+		<p><b>*There is a bug that build does not work well unless you do re-install of dlls of UNICOEN.
+		Before you execute the build of project, you must do uninstall of UNICOEN. And re-install in the next. These tasks can be executed by NuGet.
+		Now we are trying to resolve this bug and fix as soon as possible. </b>
 		
 		<br><br>
 		<h3>Tutorial</h3>
@@ -79,12 +88,12 @@
 	</article>
 	<article>
 		<h2>Download</h2>
-		<p>Currently, UniAspect have been developed together with UNICOEN.
-		<p>You can find UniAspect in the UnicoenProject, which can be downloaded form here (
-			<a href="http://github.com/UnicoenProject/UNICOEN/zipball/master">zip</a> or
-			<a href="http://github.com/UnicoenProject/UNICOEN/tarball/master">tar</a> formats).
+		<p>Currently, UniAspect have been developed as a separated project from UNICOEN.
+		<p>You can find UniAspect in the following links (
+			<a href="http://github.com/UnicoenProject/UniAspect/zipball/master">zip</a> or
+			<a href="http://github.com/UnicoenProject/UniAspect/tarball/master">tar</a> formats).
 		<p>You can also clone the project with <a href="http://git-scm.com">Git</a> by running:
-		<pre class='terminal'>$ git clone git://github.com/UnicoenProject/UNICOEN</pre>
+		<pre class='terminal'>$ git clone git://github.com/UnicoenProject/UniAspect</pre>
 	</article>
 </section>
 <footer>
